@@ -1,45 +1,45 @@
 window.addEventListener("load", function() {
 
-                function lerp(start, end, amt) {
-                    return (1 - amt) * start + amt * end;
-                }
+            function lerp(start, end, amt) {
+                return (1 - amt) * start + amt * end;
+            }
 
-                // track the mouse positions to send it to the shaders
-                var mousePosition = {
-                    x: 0,
-                    y: 0,
-                };
-                // we will keep track of the last position in order to calculate the movement strength/delta
-                var mouseLastPosition = {
-                    x: 0,
-                    y: 0,
-                };
+            // track the mouse positions to send it to the shaders
+            var mousePosition = {
+                x: 0,
+                y: 0,
+            };
+            // we will keep track of the last position in order to calculate the movement strength/delta
+            var mouseLastPosition = {
+                x: 0,
+                y: 0,
+            };
 
-                var deltas = {
-                    max: 0,
-                    applied: 0,
-                };
+            var deltas = {
+                max: 0,
+                applied: 0,
+            };
 
-                // set up our WebGL context and append the canvas to our wrapper
-                var webGLCurtain = new Curtains({
-                    container: "canvas",
-                    watchScroll: false // no need to listen for the scroll in this example
-                });
+            // set up our WebGL context and append the canvas to our wrapper
+            var webGLCurtain = new Curtains({
+                container: "canvas",
+                watchScroll: false // no need to listen for the scroll in this example
+            });
 
-                // handling errors
-                webGLCurtain.onError(function() {
-                    // we will add a class to the document body to display original images
-                    document.body.classList.add("no-curtains");
-                }).onContextLost(function() {
-                    // on context lost, try to restore the context
-                    webGLCurtain.restoreContext();
-                });
+            // handling errors
+            webGLCurtain.onError(function() {
+                // we will add a class to the document body to display original images
+                document.body.classList.add("no-curtains");
+            }).onContextLost(function() {
+                // on context lost, try to restore the context
+                webGLCurtain.restoreContext();
+            });
 
-                // get our plane element
-                var planeElements = document.getElementsByClassName("curtain");
+            // get our plane element
+            var planeElements = document.getElementsByClassName("curtain");
 
 
-                var vs = `
+            var vs = `
         precision mediump float;
 
         // default mandatory variables
@@ -91,7 +91,7 @@ window.addEventListener("load", function() {
         }
     `;
 
-                var fs = `
+            var fs = `
         precision mediump float;
 
         varying vec3 vVertexPosition;
@@ -115,71 +115,78 @@ window.addEventListener("load", function() {
         }
     `;
 
-                // some basic parameters
-                var params = {
-                    vertexShader: vs,
-                    fragmentShader: fs,
-                    widthSegments: 20,
-                    heightSegments: 20,
-                    uniforms: {
-                        resolution: { // resolution of our plane
-                            name: "uResolution",
-                            type: "2f", // notice this is an length 2 array of floats
-                            value: [planeElements[0].clientWidth, planeElements[0].clientHeight],
-                        },
-                        time: { // time uniform that will be updated at each draw call
-                            name: "uTime",
-                            type: "1f",
-                            value: 0,
-                        },
-                        mousePosition: { // our mouse position
-                            name: "uMousePosition",
-                            type: "2f", // again an array of floats
-                            value: [mousePosition.x, mousePosition.y],
-                        },
-                        mouseMoveStrength: { // the mouse move strength
-                            name: "uMouseMoveStrength",
-                            type: "1f",
-                            value: 0,
-                        }
+            // some basic parameters
+            var params = {
+                vertexShader: vs,
+                fragmentShader: fs,
+                widthSegments: 20,
+                heightSegments: 20,
+                uniforms: {
+                    resolution: { // resolution of our plane
+                        name: "uResolution",
+                        type: "2f", // notice this is an length 2 array of floats
+                        value: [planeElements[0].clientWidth, planeElements[0].clientHeight],
+                    },
+                    time: { // time uniform that will be updated at each draw call
+                        name: "uTime",
+                        type: "1f",
+                        value: 0,
+                    },
+                    mousePosition: { // our mouse position
+                        name: "uMousePosition",
+                        type: "2f", // again an array of floats
+                        value: [mousePosition.x, mousePosition.y],
+                    },
+                    mouseMoveStrength: { // the mouse move strength
+                        name: "uMouseMoveStrength",
+                        type: "1f",
+                        value: 0,
                     }
-                };
+                }
+            };
 
-                // create our plane
-                var simplePlane = webGLCurtain.addPlane(planeElements[0], params);
+            // create our plane
+            var simplePlane = webGLCurtain.addPlane(planeElements[0], params);
 
-                var textureno = 0;
+            var textureno = 0;
 
-                // if there has been an error during init, simplePlane will be null
-                simplePlane && simplePlane.onReady(function() {
+            // if there has been an error during init, simplePlane will be null
+            simplePlane && simplePlane.onReady(function() {
 
-                    var activeTex = simplePlane.createTexture({
-                        sampler: "activeTex",
-                    });
+                var activeTex = simplePlane.createTexture({
+                    sampler: "activeTex",
+                });
 
-                    activeTex = activeTex.setFromTexture(simplePlane.textures[0]);
+                activeTex = activeTex.setFromTexture(simplePlane.textures[0]);
 
-                    // set a fov of 35 to reduce perspective
-                    simplePlane.setPerspective(35);
+                // set a fov of 35 to reduce perspective
+                simplePlane.setPerspective(35);
 
-                    // apply a little effect once everything is ready
-                    deltas.max = 2;
+                // apply a little effect once everything is ready
+                deltas.max = 2;
 
-                    // now that our plane is ready we can listen to mouse move event
-                    var wrapper = document.getElementById("page-wrap");
+                // now that our plane is ready we can listen to mouse move event
+                var wrapper = document.getElementById("page-wrap");
 
-                    //simplePlane.textures[0].setScale(0.25, 0.25);
-                    //simplePlane.textures[0].setOffset(-0.5, 0);
+                //simplePlane.textures[0].setScale(0.25, 0.25);
+                //simplePlane.textures[0].setOffset(-0.5, 0);
 
-                    wrapper.addEventListener("mousemove", function(e) {
-                        handleMovement(e, simplePlane);
-                    });
+                wrapper.addEventListener("mousemove", function(e) {
+                    handleMovement(e, simplePlane);
+                });
 
-                    wrapper.addEventListener("touchmove", function(e) {
-                        handleMovement(e, simplePlane);
-                    });
+                wrapper.addEventListener("touchmove", function(e) {
+                    handleMovement(e, simplePlane);
+                });
 
-                    // photo change
+                // photo change
+
+
+                //
+
+            }).onRender(function() {
+                    // increment our time uniform
+                    simplePlane.uniforms.time.value++;
 
                     var iiseopacity = [0, 0, 0]
                     var yetiopacity = [0, 0, 0]
@@ -197,46 +204,37 @@ window.addEventListener("load", function() {
                             });
                             activeTex = activeTex.setFromTexture(simplePlane.textures[0]);
                         }
-                        
+
                         if (jQuery.inArray('0', yetiopacity) > 0) {
                             var activeTex = simplePlane.createTexture({
                                 sampler: "activeTex",
                             });
                             activeTex = activeTex.setFromTexture(simplePlane.textures[1]);
                         }
-                        
+
                         if (jQuery.inArray('0', hufopacity) > 0) {
                             var activeTex = simplePlane.createTexture({
                                 sampler: "activeTex",
                             });
                             activeTex = activeTex.setFromTexture(simplePlane.textures[2]);
                         }
-                        
+
                         if (jQuery.inArray('0', dpopacity) > 0) {
                             var activeTex = simplePlane.createTexture({
                                 sampler: "activeTex",
                             });
                             activeTex = activeTex.setFromTexture(simplePlane.textures[3]);
 
-                    }
+                        }
 
-                    get();
-                    $(window).scroll(get);
+                        // decrease both deltas by damping : if the user doesn't move the mouse, effect will fade away
+                        deltas.applied += (deltas.max - deltas.applied) * 0.02;
+                        deltas.max += (0 - deltas.max) * 0.01;
 
-                    //
+                        // send the new mouse move strength value
+                        simplePlane.uniforms.mouseMoveStrength.value = deltas.applied;
 
-                }).onRender(function() {
-                    // increment our time uniform
-                    simplePlane.uniforms.time.value++;
-
-                    // decrease both deltas by damping : if the user doesn't move the mouse, effect will fade away
-                    deltas.applied += (deltas.max - deltas.applied) * 0.02;
-                    deltas.max += (0 - deltas.max) * 0.01;
-
-                    // send the new mouse move strength value
-                    simplePlane.uniforms.mouseMoveStrength.value = deltas.applied;
-
-                }).onAfterResize(function() {
+                    }).onAfterResize(function() {
                     var planeBoundingRect = simplePlane.getBoundingRect();
                     simplePlane.uniforms.resolution.value = [planeBoundingRect.width, planeBoundingRect.height];
                 });

@@ -179,11 +179,6 @@ window.addEventListener("load", function() {
             handleMovement(e, simplePlane);
         });
 
-        // photo change
-
-
-        //
-
     }).onRender(function() {
         // increment our time uniform
         simplePlane.uniforms.time.value++;
@@ -197,7 +192,9 @@ window.addEventListener("load", function() {
         yetiopacity = [($('#yetiout1').css('opacity')), ($('#yetiout2').css('opacity')), ($('#yetiout3').css('opacity'))];
         hufopacity = [($('#huf1').css('opacity')), ($('#huf2').css('opacity')), ($('#huf3').css('opacity'))];
         dpopacity = [($('#dp1').css('opacity')), ($('#dp2').css('opacity')), ($('#dp3').css('opacity'))];
+
         if (jQuery.inArray('0', iiseopacity) > 0) {
+            console.log($.inArray('0', iiseopacity));
             var activeTex = simplePlane.createTexture({
                 sampler: "activeTex",
             });

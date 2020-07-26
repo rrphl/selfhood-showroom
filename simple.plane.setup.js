@@ -197,13 +197,6 @@ window.addEventListener("load", function() {
                             });
                             activeTex = activeTex.setFromTexture(simplePlane.textures[0]);
                         }
-
-                        if (jQuery.inArray('0', iiseopacity) > 0 && jQuery.inArray('0', yetiopacity) > 0) {
-                            var activeTex = simplePlane.createTexture({
-                                sampler: "activeTex",
-                            });
-                            activeTex = activeTex.setFromTexture(simplePlane.textures[0]);
-                        }
                         
                         if (jQuery.inArray('0', yetiopacity) > 0) {
                             var activeTex = simplePlane.createTexture({
@@ -226,7 +219,7 @@ window.addEventListener("load", function() {
                             activeTex = activeTex.setFromTexture(simplePlane.textures[3]);
                         } 
 
-                        if (jQuery.inArray('0', iiseopacity) == -1 && jQuery.inArray('0', yetiopacity) == -1 && jQuery.inArray('0', hufopacity) == -1 && jQuery.inArray('0', dpopacity) == -1){
+                        else {
                             console.log("none")
                             var activeTex = simplePlane.createTexture({
                                 sampler: "activeTex",

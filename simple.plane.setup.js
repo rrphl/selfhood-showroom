@@ -217,15 +217,6 @@ window.addEventListener("load", function() {
                                 sampler: "activeTex",
                             });
                             activeTex = activeTex.setFromTexture(simplePlane.textures[3]);
-                        } 
-
-                        else {
-                            console.log("none")
-                            var activeTex = simplePlane.createTexture({
-                                sampler: "activeTex",
-                            });
-                            activeTex = activeTex.setFromTexture(simplePlane.textures[0]);
-                        }
 
                     }
 

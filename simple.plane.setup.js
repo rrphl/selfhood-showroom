@@ -198,7 +198,7 @@ window.addEventListener("load", function() {
                             activeTex = activeTex.setFromTexture(simplePlane.textures[0]);
                         }
 
-                        if (jQuery.inArray('0', iiseopacity) > 0) {
+                        if (jQuery.inArray('0', iiseopacity) > 0 && jQuery.inArray('0', yetiopacity) > 0) {
                             var activeTex = simplePlane.createTexture({
                                 sampler: "activeTex",
                             });

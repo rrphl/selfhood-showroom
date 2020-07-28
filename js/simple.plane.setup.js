@@ -25,16 +25,7 @@ window.addEventListener("load", function() {
         container: "canvas",
         watchScroll: false // no need to listen for the scroll in this example
     });
-
-    // handling errors
-    webGLCurtain.onError(function() {
-        // we will add a class to the document body to display original images
-        document.body.classList.add("no-curtains");
-    }).onContextLost(function() {
-        // on context lost, try to restore the context
-        webGLCurtain.restoreContext();
-    });
-
+    
     // get our plane element
     var planeElements = document.getElementsByClassName("curtain");
 
@@ -148,22 +139,19 @@ window.addEventListener("load", function() {
     // create our plane
     var simplePlane = webGLCurtain.addPlane(planeElements[0], params);
 
-    var textureno = 0;
+    var activeTex = simplePlane.createTexture({
+        sampler: "activeTex",
+    });
 
     // if there has been an error during init, simplePlane will be null
     simplePlane && simplePlane.onReady(function() {
-
-        var activeTex = simplePlane.createTexture({
-            sampler: "activeTex",
-        });
-
-        activeTex = activeTex.setFromTexture(simplePlane.textures[0]);
-
         // set a fov of 35 to reduce perspective
         simplePlane.setPerspective(35);
 
         // apply a little effect once everything is ready
-        deltas.max = 2;
+        deltas.max = 5;
+
+        activeTex.setFromTexture(simplePlane.textures[0]);
 
         // now that our plane is ready we can listen to mouse move event
         var wrapper = document.getElementById("page-wrap");
@@ -183,45 +171,6 @@ window.addEventListener("load", function() {
         // increment our time uniform
         simplePlane.uniforms.time.value++;
 
-        var iiseopacity = [0, 0, 0]
-        var yetiopacity = [0, 0, 0]
-        var hufopacity = [0, 0, 0]
-        var dpopacity = [0, 0, 0]
-
-        iiseopacity = [($('#iise1').css('opacity')), ($('#iise2').css('opacity')), ($('#iise3').css('opacity'))];
-        yetiopacity = [($('#yetiout1').css('opacity')), ($('#yetiout2').css('opacity')), ($('#yetiout3').css('opacity'))];
-        hufopacity = [($('#huf1').css('opacity')), ($('#huf2').css('opacity')), ($('#huf3').css('opacity'))];
-        dpopacity = [($('#dp1').css('opacity')), ($('#dp2').css('opacity')), ($('#dp3').css('opacity'))];
-
-        if (jQuery.inArray('0', iiseopacity) > 0) {
-            console.log($.inArray('0', iiseopacity));
-            var activeTex = simplePlane.createTexture({
-                sampler: "activeTex",
-            });
-            activeTex = activeTex.setFromTexture(simplePlane.textures[0]);
-        }
-
-        if (jQuery.inArray('0', yetiopacity) > 0) {
-            var activeTex = simplePlane.createTexture({
-                sampler: "activeTex",
-            });
-            activeTex = activeTex.setFromTexture(simplePlane.textures[1]);
-        }
-
-        if (jQuery.inArray('0', hufopacity) > 0) {
-            var activeTex = simplePlane.createTexture({
-                sampler: "activeTex",
-            });
-            activeTex = activeTex.setFromTexture(simplePlane.textures[2]);
-        }
-
-        if (jQuery.inArray('0', dpopacity) > 0) {
-            var activeTex = simplePlane.createTexture({
-                sampler: "activeTex",
-            });
-            activeTex = activeTex.setFromTexture(simplePlane.textures[3]);
-        }
-
         // decrease both deltas by damping : if the user doesn't move the mouse, effect will fade away
         deltas.applied += (deltas.max - deltas.applied) * 0.02;
         deltas.max += (0 - deltas.max) * 0.01;
@@ -233,8 +182,6 @@ window.addEventListener("load", function() {
         var planeBoundingRect = simplePlane.getBoundingRect();
         simplePlane.uniforms.resolution.value = [planeBoundingRect.width, planeBoundingRect.height];
     });
-
-
 
     // handle the mouse move event
     function handleMovement(e, plane) {

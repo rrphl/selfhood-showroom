@@ -143,6 +143,8 @@ window.addEventListener("load", function() {
         sampler: "activeTex",
     });
 
+    activeTex.setFromTexture(simplePlane.textures[0]);
+
     // if there has been an error during init, simplePlane will be null
     simplePlane && simplePlane.onReady(function() {
         // set a fov of 35 to reduce perspective

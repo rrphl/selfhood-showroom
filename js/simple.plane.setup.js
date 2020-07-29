@@ -25,7 +25,7 @@ window.addEventListener("load", function() {
         container: "canvas",
         watchScroll: false // no need to listen for the scroll in this example
     });
-    
+
     // get our plane element
     var planeElements = document.getElementsByClassName("curtain");
 
@@ -179,6 +179,23 @@ window.addEventListener("load", function() {
 
         // send the new mouse move strength value
         simplePlane.uniforms.mouseMoveStrength.value = deltas.applied;
+
+        var iiseopacity = [($('#iise1').css('opacity')), ($('#iise2').css('opacity')), ($('#iise3').css('opacity'))];
+        var yetiopacity = [($('#yeti1').css('opacity')), ($('#yeti2').css('opacity')), ($('#yeti3').css('opacity'))];
+        var hufopacity = [($('#huf1').css('opacity')), ($('#huf2').css('opacity')), ($('#huf3').css('opacity'))];
+        var dpopacity = [($('#dp1').css('opacity')), ($('#dp2').css('opacity')), ($('#dp3').css('opacity'))];
+
+        if (jQuery.inArray('0', iiseopacity) > -1) {
+            activeTex.setFromTexture(simplePlane.textures[0]);
+        } else if (jQuery.inArray('0', yetiopacity) > -1) {
+            activeTex.setFromTexture(simplePlane.textures[1]);
+        } else if (jQuery.inArray('0', hufopacity) > -1) {
+            activeTex.setFromTexture(simplePlane.textures[2]);
+        } else if (jQuery.inArray('0', dpopacity) > -1) {
+            activeTex.setFromTexture(simplePlane.textures[3]);
+        } else {
+            activeTex.setFromTexture(simplePlane.textures[0]);
+        }
 
     }).onAfterResize(function() {
         var planeBoundingRect = simplePlane.getBoundingRect();

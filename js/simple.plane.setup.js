@@ -193,8 +193,6 @@ window.addEventListener("load", function() {
             activeTex.setFromTexture(simplePlane.textures[2]);
         } else if (jQuery.inArray('0', dpopacity) > -1) {
             activeTex.setFromTexture(simplePlane.textures[3]);
-        } else {
-            activeTex.setFromTexture(simplePlane.textures[0]);
         }
 
     }).onAfterResize(function() {

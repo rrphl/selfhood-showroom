@@ -186,7 +186,7 @@ window.addEventListener("load", function() {
         if (jQuery.inArray('0', iiseopacity) > -1) {
             activeTex.setFromTexture(simplePlane.textures[0]);
         } else if (jQuery.inArray('0', hufopacity) > -1) {
-            activeTex.setFromTexture(simplePlane.textures[2]);
+            activeTex.setFromTexture(simplePlane.textures[1]);
         }
 
     }).onAfterResize(function() {

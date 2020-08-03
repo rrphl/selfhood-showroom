@@ -8,7 +8,7 @@ if (navigator.userAgent.match(/Mac/) && navigator.maxTouchPoints && navigator.ma
 if ($(window).width() < 992) {
     isMobile = true;
 }
-if (isMobile) {
+if (!isMobile) {
     window.addEventListener("load", function() {
 
         function lerp(start, end, amt) {

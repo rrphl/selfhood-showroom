@@ -180,13 +180,20 @@ window.addEventListener("load", function() {
         // send the new mouse move strength value
         simplePlane.uniforms.mouseMoveStrength.value = deltas.applied;
 
+        var fallbackimage = 0;
+
+        if (fallbackimage = 0){$("#iise-fallback").css("display", "block");$("#huf-fallback").css("display", "none");}
+        if (fallbackimage = 1){$("#huf-fallback").css("display", "block");$("#iise-fallback").css("display", "none");}
+
         var iiseopacity = [($('#iise1').css('opacity')), ($('#iise2').css('opacity')), ($('#iise3').css('opacity'))];
         var hufopacity = [($('#huf1').css('opacity')), ($('#huf2').css('opacity')), ($('#huf3').css('opacity'))];
 
         if (jQuery.inArray('0', iiseopacity) > -1) {
             activeTex.setFromTexture(simplePlane.textures[0]);
+            fallbackimage = 0;
         } else if (jQuery.inArray('0', hufopacity) > -1) {
             activeTex.setFromTexture(simplePlane.textures[1]);
+            fallbackimage = 1;
         }
 
     }).onAfterResize(function() {

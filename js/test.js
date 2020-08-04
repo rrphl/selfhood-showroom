@@ -6,8 +6,7 @@ MemberStack.onReady.then(async function(member) {
         console.log(saved);
         if (metadata.saved) {
             $('#iise .saved-item').each(function(element) {
-                var link = $(element).closest('.saved-item-info-link');
-                console.log(link);
+                console.log(element);
             });
         }
     }

@@ -5,8 +5,9 @@ MemberStack.onReady.then(async function(member) {
         var saved = metadata.saved;
         console.log(saved);
         if (metadata.saved) {
-            $('#iise .saved-item').each(function(element) {
-                var link = element.querySelector(".brands-item-name-link");
+            var iise = document.querySelector("#iise");
+            iise.querySelectorAll(".brands-item").forEach(function(element) {
+                var link = element.querySelector(".saved-item-info-link");
                 console.log(link);
             });
         }

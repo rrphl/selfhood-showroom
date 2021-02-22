@@ -191,15 +191,6 @@ if (!isMobile) {
             // send the new mouse move strength value
             simplePlane.uniforms.mouseMoveStrength.value = deltas.applied;
 
-            var iiseopacity = [($('#iise1').css('opacity')), ($('#iise2').css('opacity')), ($('#iise3').css('opacity'))];
-            var hufopacity = [($('#huf1').css('opacity')), ($('#huf2').css('opacity')), ($('#huf3').css('opacity'))];
-
-            if (jQuery.inArray('0', iiseopacity) > -1) {
-                activeTex.setFromTexture(simplePlane.textures[0]);
-            } else if (jQuery.inArray('0', hufopacity) > -1) {
-                activeTex.setFromTexture(simplePlane.textures[1]);
-            }
-
         }).onAfterResize(function() {
             var planeBoundingRect = simplePlane.getBoundingRect();
             simplePlane.uniforms.resolution.value = [planeBoundingRect.width, planeBoundingRect.height];
